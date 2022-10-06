@@ -1,6 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library    Collections
+Library    String
 
 Resource    ${CURDIR}/../keywords/home_page.robot
 Resource    ${CURDIR}/../keywords/shopeemall_page.robot
@@ -21,3 +22,16 @@ Test001
     Select category
     
     Create list of brand img url
+    Create list of brand url
+
+    Select sort by price
+    Check third product on page
+
+    # Scroll Element Into View    xpath=//div[@class='container zj3slD']//ul[@class='image-carousel__item-list']
+    Select brand
+    Verify link to correct page
+    Go Back
+    Click Element    xpath=//div[@class='ofs-page__section-header-see-all']
+    Log To Console     suxxess
+    
+    
