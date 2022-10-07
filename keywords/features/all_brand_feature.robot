@@ -1,4 +1,5 @@
 *** Keywords ***
+
 Check first letter should valid
     all_brand_page.Wait for menu is visible
     all_brand_page.Go to all brand page
