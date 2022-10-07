@@ -1,8 +1,10 @@
+** Variables ***
+
+${JSPath}                  dom:document.querySelector('shopee-banner-popup-stateful').shadowRoot.querySelector('.home-popup > .home-popup__background > .home-popup__content > .home-popup__close-area > .shopee-popup__close-btn')
+${category_locator}        xpath=//div[contains(text(), '${category_name}')]
+
 *** Keywords ***
-Select language
-    SeleniumLibrary.Wait Until Element Is Visible        id=main
-    SeleniumLibrary.Click Element       xpath=//button[contains(text(),'ไทย')]
-    
+
 Close popup
     ${popup}        SeleniumLibrary.Get WebElement       ${JSPath}
     BuiltIn.Run keyword and ignore error        SeleniumLibrary.Click Element       ${popup}
@@ -13,9 +15,8 @@ Check category list
     SeleniumLibrary.Wait Until Element Is Visible        xpath=//div[@class="home-category-list"]//div[@class="carousel-arrow carousel-arrow--next carousel-arrow--hint"]
     SeleniumLibrary.Click Element    xpath=//div[@class="home-category-list"]//div[@class="carousel-arrow carousel-arrow--next carousel-arrow--hint"]
     FOR  ${category}  IN  @{home_category}
-        Log To Console        test ${category}
         SeleniumLibrary.Wait Until Element Is Visible    xpath=//div[contains(text(), '${category}')]
     END
 
 Select category
-    Click Element        xpath=//div[contains(text(), 'คอมพิวเตอร์และแล็ปท็อป')]
+    Click Element        ${category_locator}

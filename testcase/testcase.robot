@@ -1,37 +1,49 @@
 *** Settings ***
-Library    SeleniumLibrary
-Library    Collections
-Library    String
 
-Resource    ${CURDIR}/../keywords/home_page.robot
-Resource    ${CURDIR}/../keywords/shopeemall_page.robot
-
-Variables    ${CURDIR}/../testdata/testdata.yaml
+Resource    ${CURDIR}/../imports/imports.robot
 
 
-Test Setup     SeleniumLibrary.Open browser        https://shopee.co.th    gc
-
-*** Variables ***
-${JSPath}        dom:document.querySelector('shopee-banner-popup-stateful').shadowRoot.querySelector('.home-popup > .home-popup__background > .home-popup__content > .home-popup__close-area > .shopee-popup__close-btn')
+# Suite Setup     SeleniumLibrary.Open browser        https://shopee.co.th    gc
 
 *** Test Cases ***
 Test001
-    Select language
-    Close popup
-    Check category list
-    Select category
+    SeleniumLibrary.Open browser        https://shopee.co.th    gc
+    common.Select language
+    home_page.Close popup
+    home_page.Check category list
+    home_page.Select category
     
-    Create list of brand img url
-    Create list of brand url
+    ${mall_img_url}      common.Create list of brand img url    ${mall.img_locator}
+    ${mall_brand_url}    common.Create list of brand url        ${mall.url_locator}
 
-    Select sort by price
-    Check third product on page
+    shopeemall_page.Select sort by price
+    shopeemall_page.Check third product on page
 
-    # Scroll Element Into View    xpath=//div[@class='container zj3slD']//ul[@class='image-carousel__item-list']
-    Select brand
-    Verify link to correct page
-    Go Back
-    Click Element    xpath=//div[@class='ofs-page__section-header-see-all']
-    Log To Console     suxxess
+    shopeemall_page.Select brand
+    common.Verify link to correct page        ${brand_name_url}
+    shopeemall_page.Back to previous page
+
+Test002
+    Open Browser    https://shopee.co.th/mall/brands/11044958    gc
+    common.Select language
+    all_brand_page.Check start letter should be valid
+    common.Page zoom out
+    ${all_img_url}      common.Create list of brand img url    ${all.img_locator}
+    ${all_brand_url}    common.Create list of brand url        ${all.url_locator}
+
+Test003
+    SeleniumLibrary.Open browser        https://shopee.co.th    gc
+    common.Select language
+    home_page.Close popup
+    home_page.Check category list
+    home_page.Select category
+    ${mall_img_url}      common.Create list of brand img url    ${mall.img_locator}
+    ${mall_brand_url}    common.Create list of brand url        ${mall.url_locator}
+    Click Element        ${mall.all_brand_locator}
+    common.Page zoom out
+    ${all_img_url}      common.Create list of brand img url    ${all.img_locator}
+    ${all_brand_url}    common.Create list of brand url        ${all.url_locator}
     
-    
+    all_brand_page.Validate mall brand img have in all brand        ${all_img_url}      ${mall_img_url}
+    all_brand_page.Validate mall brand name have in all brand    ${all_brand_url}    ${mall_brand_url}
+
