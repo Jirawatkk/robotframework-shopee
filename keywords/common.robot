@@ -3,12 +3,14 @@ ${lang_locator}    xpath=//button[contains(text(),'${lang}')]
 ${main_locatot}    id=main
 ${regex_url}       re.findall(r'url\\(\\"([^)^\\"]+)', $link_style)[0]
 ${home_url}        https://shopee.co.th/
+${zoom_script}     document.body.style.zoom = "5%"
 
 *** Keywords ***
 
 Close popup
     ${popup}        SeleniumLibrary.Get WebElement       ${JSPath}
     BuiltIn.Run keyword and ignore error        SeleniumLibrary.Click Element       ${popup}
+    
 Select language
     SeleniumLibrary.Wait Until Element Is Visible        ${main_locatot}
     SeleniumLibrary.Click Element                        ${lang_locator}
@@ -16,7 +18,6 @@ Select language
 Create list of brand img url
     [Arguments]    ${locator}
     SeleniumLibrary.Wait Until Element Is Visible       ${main_locatot}
-    # Execute Javascript    window.scrollTo(0, 200)
     SeleniumLibrary.Wait Until Element Is Visible       ${locator}
     ${links}    Get WebElements                         ${locator}
     ${img_url}    BuiltIn.Create List
@@ -35,7 +36,6 @@ Create list of brand url
         ${link_url}        Get Element Attribute    ${link}    href
         Collections.Append To List    ${brand_url}    ${link_url}
     END
-
     [Return]    ${brand_url}
 
 Wait for element visible
@@ -49,4 +49,4 @@ Verify link to correct page
     Should Be Equal    ${current_url}        ${brand_name}
 
 Page zoom out
-    Execute Javascript    document.body.style.zoom = "5%"
+    Execute Javascript    ${zoom_script}
