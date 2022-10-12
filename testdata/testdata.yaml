@@ -24,13 +24,6 @@ home_category:
   - เครื่องเขียน หนังสือ และดนตรี
   - ตั๋วและบัตรกำนัล
   - ช้อปปี้เพย์ใกล้ตัว
-mall:
-  img_locator: dom:document.querySelectorAll('.ofs-carousel__cover-image.owJZ7d')
-  url_locator: dom:document.querySelectorAll('.ofs-carousel__shop-cover-image')
-  all_brand_locator: xpath=//div[@class='ofs-page__section-header-see-all']
-all:
-  img_locator: dom:document.querySelectorAll('.full-brand-list-item__cover-image')
-  url_locator: dom:document.querySelectorAll('.full-brand-list-item__brand-cover-image')
 brand_name_url: itcity
 category_name: คอมพิวเตอร์และแล็ปท็อป
 sort:

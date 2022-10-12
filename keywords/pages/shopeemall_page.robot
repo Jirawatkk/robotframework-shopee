@@ -1,6 +1,6 @@
 *** Variables ***
-
 ${brand_locator}    xpath=//a[contains(@href, '${brand_name_url}')]
+${mul_brand_locator}    xpath=//a[contains(@href, '$location')]
 ${sort_by_option_locator}    xpath=//div[contains(text(), '${sort.sort_by_option}')]
 ${sort_by_price_locator}    xpath=//div[contains(text(), '${sort.sort_by_price}')]
 ${select_status_locator}    xpath=//div[@class="select-with-status"]
@@ -10,23 +10,30 @@ ${menu_brand_locator}    xpath=//div[@class='ofs-carousel__items']
 ${search_item_result_locator}    xpath=//div[@class='col-xs-2-4 shopee-search-item-result__item']
 
 *** Keywords ***
-
 Select sort by options
-    Click Element        ${sort_by_option_locator}
+    Wait until page contains element     ${sort_by_option_locator}
+    SeleniumLibrary.Click element        ${sort_by_option_locator}
 
 Select sort by price
-    Mouse Over           ${select_status_locator}
-    Click Element        ${sort_by_price_locator}
-    SeleniumLibrary.Wait Until Element Is Visible       ${search_item_result_locator}
+    Wait until page contains element     ${sort_by_option_locator}
+    SeleniumLibrary.Mouse over           ${select_status_locator}
+    SeleniumLibrary.Click element        ${sort_by_price_locator}
+    SeleniumLibrary.Wait until element is visible       ${search_item_result_locator}
 
 Check third product on page
-    ${third_product}    Get WebElements    ${third_product_locator}
-    ${third_product_name}        Get Text        ${third_product}[2]
-    Run Keyword And Continue On Failure    Should Be Equal       ${third_product_name}    ${test_data_third_product}
+    ${third_product}    SeleniumLibrary.Get webelements    ${third_product_locator}
+    ${third_product_name}        SeleniumLibrary.Get text        ${third_product}[2]
+    BuiltIn.Run keyword and continue on failure    BuiltIn.Should be equal       ${third_product_name}    ${test_data_third_product}
 
 Select brand
-    Wait until element is visible    ${menu_brand_locator} 
-    Click Element        ${brand_locator}
+    SeleniumLibrary.Wait until element is visible    ${menu_brand_locator}
+    SeleniumLibrary.Click element        ${brand_locator}
+
+Select multiple brand
+    [Arguments]    ${location}
+    SeleniumLibrary.Wait until element is visible    ${menu_brand_locator}
+    ${mul_brand_locator}    String.Replace string    ${mul_brand_locator}    $location    ${location}
+    SeleniumLibrary.Click element        ${mul_brand_locator}
 
 Back to previous page
-    Execute Javascript    ${js_command_back_page}
+    SeleniumLibrary.Execute javascript    ${js_command_back_page}

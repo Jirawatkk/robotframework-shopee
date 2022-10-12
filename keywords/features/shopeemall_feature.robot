@@ -1,8 +1,6 @@
 *** Keywords ***
-
 Sort product and verify list of img and third product
-    ${mall_img_url}      common.Create list of brand img url    ${mall.img_locator}
-    ${mall_brand_url}    common.Create list of brand url        ${mall.url_locator}
+    shopeemall_page.Select sort by options
     shopeemall_page.Select sort by price
     shopeemall_page.Check third product on page
 
